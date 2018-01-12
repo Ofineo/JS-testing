@@ -49,7 +49,7 @@ $(function () {
 
         });
     });
-    
+
     describe('Initial Entries', () => {
 
         beforeEach((done) => {
@@ -65,6 +65,24 @@ $(function () {
                 done();
             }
 
+        });
+    });
+
+    describe('New Feed Selection', () => {
+        beforeEach((done) => {
+            loadFeed(0, () => {
+                done();
+            });
+        });
+
+        it('on load content changes', (done) => {
+            if (feedLoadedFinished) {
+                $('.feed').change(() => {
+
+                });
+
+                done();
+            }
         });
     });
 
