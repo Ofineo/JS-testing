@@ -49,6 +49,24 @@ $(function () {
 
         });
     });
+    
+    describe('Initial Entries', () => {
+
+        beforeEach((done) => {
+            loadFeed(0, () => {
+                done();
+            });
+        });
+
+        it('should have at least one entry', (done) => {
+            if (feedLoadedFinished) {
+                let feedElement = $('.feed > a');
+                expect(feedElement).not.toBeUndefined();
+                done();
+            }
+
+        });
+    });
 
     /* TODO: Write a test that ensures the menu changes
      * visibility when the menu icon is clicked. This test
