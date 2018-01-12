@@ -1,4 +1,4 @@
-/* feedreader.js
+    /* feedreader.js
  *
  * This is the spec file that Jasmine will read and contains
  * all of the tests that will be run against your application.
@@ -24,6 +24,13 @@ $(function() {
         it('are defined', function() {
             expect(allFeeds).toBeDefined();
             expect(allFeeds.length).not.toBe(0);
+        });
+
+        it('URL defined', function() {
+            allFeeds.forEach(function(feed) {
+                expect(feed.url).toBeDefined();
+                expect(feed.url).toContain('http://');                                
+            });          
         });
 
 
