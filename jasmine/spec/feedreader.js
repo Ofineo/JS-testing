@@ -66,59 +66,49 @@ $(function () {
         });
 
         it('should have at least one entry', (done) => {
-            if (feedLoadedFinished) {
-                let feedElement = $('.feed > a');
-                expect(feedElement).not.toBeUndefined();
-                done();
-            }
-
+            let feedElement = $('.feed > a');
+            expect(feedElement).not.toBeUndefined();
+            done();
         });
     });
 
     describe('New Feed Selection', () => {
+        let firstFeed,
+            secondFeed;
         beforeEach((done) => {
             loadFeed(0, () => {
+                firstFeed = $('.feed > a');
                 done();
             });
+
+            if (feedLoadedFinished) {
+                loadFeed(1, () => {
+                    secondFeed = $('.feed > a');
+                    done();
+                });
+            }
         });
 
         it('on load content changes', (done) => {
-            if (feedLoadedFinished) {
-                $('.feed').change(() => {
-
-                });
-
+            if(feedLoadedFinished){
+                 expect(firstFeed).not.toBe(secondFeed);
                 done();
-            }
+            }               
         });
     });
 
-    describe('Error handling', ()=>{
+    describe('Error handling', () => {
 
-        it('variables are defined',()=>{
-
+        it('variables are defined', () => {
             expect(allFeeds).toBeDefined();
             expect(feedLoadedFinished).toBeDefined();
 
-
         });
 
-        it('Array in bounds',()=>{
-
-
-
+        it('Array in bounds', () => {
+            spyOn(window,'loadFeed');
+            loadFeed(0);
+            expect(window.loadFeed.calls.argsFor(0)).toEqual([0]);
         });
-
     });
-
-    /* TODO: Write a test that ensures the menu changes
-     * visibility when the menu icon is clicked. This test
-     * should have two expectations: does the menu display when
-     * clicked and does it hide when clicked again.
-     */
-    
-    /* TODO: Write a test that ensures when a new feed is loaded
-     * by the loadFeed function that the content actually changes.
-     * Remember, loadFeed() is asynchronous.
-     */
 }());
