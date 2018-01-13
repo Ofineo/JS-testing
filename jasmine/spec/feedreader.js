@@ -90,10 +90,10 @@ $(function () {
         });
 
         it('on load content changes', (done) => {
-            if(feedLoadedFinished){
-                 expect(firstFeed).not.toBe(secondFeed);
+            if (feedLoadedFinished) {
+                expect(firstFeed).not.toBe(secondFeed);
                 done();
-            }               
+            }
         });
     });
 
@@ -106,9 +106,31 @@ $(function () {
         });
 
         it('Array in bounds', () => {
-            spyOn(window,'loadFeed');
+            spyOn(window, 'loadFeed');
             loadFeed(0);
             expect(window.loadFeed.calls.argsFor(0)).toEqual([0]);
         });
+    });
+
+    describe('Manage feeds', () => {
+        let feedLenght
+
+        beforeEach(() => {
+            feedLenght = allFeeds.length;
+            allFeeds.push( {
+                name: 'JW.org',
+                url: 'https://www.jw.org/en/news/rss/FullNewsRSS/feed'
+            });
+        });
+
+        it('Add a feed', () => {        
+            expect(allFeeds.length).toBe(feedLenght+1);
+        });
+
+        it('Remove a feed', () => {
+            allFeeds.splice(feedLenght,1);
+            expect(allFeeds.length).toBe(feedLenght);
+        });
+
     });
 }());
