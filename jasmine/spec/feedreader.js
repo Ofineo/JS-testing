@@ -44,9 +44,16 @@ $(function () {
             expect(menuHidden).toBe(true);
         });
 
-        it('changes visibility', () => {
+        it('shows on cick', () => {
+            $('.menu-icon-link').trigger('click');
 
+            expect($('body').hasClass('menu-hidden')).toBe(false);
+        });
 
+        it('hiddes on cick', () => {
+            $('.menu-icon-link').trigger('click');
+
+            expect($('body').hasClass('menu-hidden')).toBe(true);
         });
     });
 
@@ -84,6 +91,24 @@ $(function () {
                 done();
             }
         });
+    });
+
+    describe('Error handling', ()=>{
+
+        it('variables are defined',()=>{
+
+            expect(allFeeds).toBeDefined();
+            expect(feedLoadedFinished).toBeDefined();
+
+
+        });
+
+        it('Array in bounds',()=>{
+
+
+
+        });
+
     });
 
     /* TODO: Write a test that ensures the menu changes
