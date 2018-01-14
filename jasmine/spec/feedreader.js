@@ -50,17 +50,16 @@ $(function () {
 
         /*Tests to make sure the menu changes visibility when the menu icon is clicked.
         */
-        it('shows on cick', () => {
+        it('shows/hides on cick', () => {
             $('.menu-icon-link').trigger('click');
 
             expect($('body').hasClass('menu-hidden')).toBe(false);
-        });
 
-        it('hiddes on cick', () => {
             $('.menu-icon-link').trigger('click');
 
             expect($('body').hasClass('menu-hidden')).toBe(true);
         });
+
     });
 
     describe('Initial Entries', () => {
@@ -71,10 +70,9 @@ $(function () {
         /*Test `loadFeed` function. when called and complete, 
         * it should be at least, a single `.entry` element within the `.feed` container.
         */
-        it('should have at least one entry', (done) => {
-            let feedElement = $('.feed > a');
+        it('should have at least one entry', () => {
+            let feedElement = $('.feed a .entry');
             expect(feedElement.length).not.toBe(0);
-            done();
         });
     });
 
@@ -87,7 +85,7 @@ $(function () {
         */
         beforeEach((done) => {
             loadFeed(0, () => {
-                firstFeed = $('.feed a .entry ').html;
+                firstFeed = $('.feed > a').html;
                 done(loadFeed(1, () => {
                     secondFeed = $('.feed > a').html;
                     done();
