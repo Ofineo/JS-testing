@@ -6,7 +6,6 @@
  * jQuery.
  */
 
-let feedLoadedFinished = false;
 // The names and URLs to all of the feeds we'd like available.
 var allFeeds = [
     {
@@ -30,7 +29,7 @@ var allFeeds = [
  */
 function init() {
     // Load the first feed we've defined (index of 0).
-    loadFeed(0, feedsLoaded);
+    loadFeed(0,);
 }
 
 /* This function performs everything necessary to load a
@@ -84,10 +83,6 @@ function loadFeed(id, cb) {
         },
         dataType: "json"
     });
-}
-
-function feedsLoaded() {
-    feedLoadedFinished = true;
 }
 
 /* Google API: Loads the Feed Reader API and defines what function

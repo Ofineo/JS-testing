@@ -1,12 +1,17 @@
 /* feedreader.js
 
 
+
 /* We're placing all of our tests within the $() function,
  * since some of these tests may require DOM elements. We want
  * to ensure they don't run until the DOM is ready.
  */
+
+
 $(function () {
-    
+
+    "use strict";
+
     describe('RSS Feeds', function () {
 
         it('are defined', function () {
@@ -32,7 +37,7 @@ $(function () {
             });
         });
     });
-    
+
     describe('The menu', () => {
 
         /*Test that the menu element is hidden by default.
@@ -61,16 +66,14 @@ $(function () {
     describe('Initial Entries', () => {
 
         beforeEach((done) => {
-            loadFeed(0, () => {
-                done();
-            });
+            loadFeed(0, done);
         });
         /*Test `loadFeed` function. when called and complete, 
         * it should be at least, a single `.entry` element within the `.feed` container.
         */
         it('should have at least one entry', (done) => {
             let feedElement = $('.feed > a');
-            expect(feedElement).not.toBeUndefined();
+            expect(feedElement.length).not.toBe(0);
             done();
         });
     });
@@ -79,31 +82,25 @@ $(function () {
 
         let firstFeed,
             secondFeed;
+        /*The second call to the function is wrapped in the done function to make sure
+        * the first feeds are finished loading.
+        */
         beforeEach((done) => {
             loadFeed(0, () => {
-                firstFeed = $('.feed > a');
-                done();
-            });
-
-            /*The second call to the function is wrapped in a conditional to make sure
-            * the first feeds are finished loading.
-            */
-            if (feedLoadedFinished) {
-                loadFeed(1, () => {
-                    secondFeed = $('.feed > a');
+                firstFeed = $('.feed a .entry ').html;
+                done(loadFeed(1, () => {
+                    secondFeed = $('.feed > a').html;
                     done();
-                });
-            }
+                }));
+            });
         });
 
         /*Test make sure that when a new feed is loaded by the `loadFeed` 
         * function that the content actually changes.
         */
         it('on load content changes', (done) => {
-            if (feedLoadedFinished) {
-                expect(firstFeed).not.toBe(secondFeed);
-                done();
-            }
+            expect(firstFeed).not.toBe(secondFeed);
+            done();
         });
     });
 
@@ -126,28 +123,36 @@ $(function () {
     });
 
     describe('Manage feeds', () => {
-        let feedLenght
+        let feedLenght,
+            newFeed;
+            
 
         beforeEach(() => {
             feedLenght = allFeeds.length;
-            allFeeds.push( {
+            newFeed = {
                 name: 'JW News',
                 url: 'https://www.jw.org/en/news/rss/FullNewsRSS/feed'
-            });
+            };
+            allFeeds.push(newFeed);
         });
 
         /*Test `allFeeds` object and ensures that the object increases when we add an extra feed.
         */
-        it('Add a feed', () => {        
-            expect(allFeeds.length).toBe(feedLenght+1);
+        it('Add a feed', () => {
+            expect(allFeeds.length).toBe(feedLenght + 1);
+            expect(allFeeds[allFeeds.length - 1]).toBe(newFeed);
         });
 
         /*Test `allFeeds` object and ensures that  the object decreases when we remove our 
-        *selected feed.
+        // *selected feed.
         */
-        it('Remove a feed', () => {
-            allFeeds.splice(feedLenght,1);
+        it('Remove a feed', () => {           
+            allFeeds.splice(feedLenght, 1);
+
             expect(allFeeds.length).toBe(feedLenght);
+            expect(allFeeds.find((element)=>{
+                return element === newFeed;
+            })).toBeUndefined;
         });
 
     });
